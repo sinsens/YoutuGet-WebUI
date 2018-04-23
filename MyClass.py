@@ -76,13 +76,13 @@ class Server():
 		
 		try:
 			if("youtube.com" in url):
-				print("Downloding video from Youtube, this thread will switch word dir to ", self.homeroot)
+				print("Downloding video from Youtube, this thread will switch work dir to ", self.homeroot)
 				os.chdir(self.homeroot)
 				system('youtube-dl %s' % (url))
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
-			print("Some problam happend -_-||")
+			print("Some problem happend -_-||")
 			raise
 
 	def play(self, filename):
