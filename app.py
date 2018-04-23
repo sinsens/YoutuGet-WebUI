@@ -26,5 +26,9 @@ def list():
 def go():
 	return s.go()
 
+@app.route('/play/<filename>')
+def play(filename):
+	return s.play(filename)
+
 if __name__ == '__main__':
 	app.run(port=port)

@@ -84,3 +84,6 @@ class Server():
 		except Exception:
 			print("Some problam happend -_-||")
 			raise
+
+	def play(self, filename):
+		return render_template('play.html', filename = filename)
