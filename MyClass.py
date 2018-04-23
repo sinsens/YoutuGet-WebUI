@@ -82,5 +82,5 @@ class Server():
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
-			print("Some problam happend -_-||")
+			print("Some problem happend -_-||")
 			raise
