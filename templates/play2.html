@@ -1,0 +1,52 @@
+<!DOCTYPE html><html><head itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<title>{{filename}}</title>
+	<style type="text/css">
+		#page{
+			padding:0;
+			max-width:100%;
+			margin:0;
+			background: rgb(200,210,200);
+		}
+		.content{
+			margin:20px auto;line-height:2.2em;
+			text-align:center;
+		}
+		ul li a{
+			color:rgb(100,100,100)
+		}
+	</style>
+	<script src="https://cdn.bootcss.com/flv.js/1.4.2/flv.min.js">
+	/*Bilibili Flvjs
+		https://github.com/Bilibili/flv.js
+	*/
+	</script>
+</head>
+<body id="page">
+	<div class="content">
+	<h2>{{filename}}</h2>
+		<video id="mplayer" class="video-js" controls preload="auto" style="margin:0 auto;background:black" height="auto" width="95%" autoplay="false">
+	</video>
+	<script>
+    if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('mplayer');
+        var flvPlayer = flvjs.createPlayer({
+		{% if '.flv' in filename %}
+            type: 'flv',
+		{% elif '.mp4' in filename %}
+			type: 'mp4',
+		{% else %}
+			type: 'ogg',
+		{% endif %}
+            url: '/get/{{filename}}'
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+    }
+	</script>
+	</div>
+</body>
+</html>
+	

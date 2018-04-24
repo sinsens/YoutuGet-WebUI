@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+from flask import render_template, request
+from os import path
 from os import system
 import threading
-from flask import render_template
-from os import path
 import os
-from flask import request
 import sys
 import time
 
@@ -86,4 +86,4 @@ class Server():
 			raise
 
 	def play(self, filename):
-		return render_template('play.html', filename = filename)
+		return render_template('play2.html', filename = filename)

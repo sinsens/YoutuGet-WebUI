@@ -31,7 +31,7 @@
 			<input type="submit" value="Go">
 			<p>Tip1:添加任务后会启用后台线程下载，暂时无法进行任务管理。</p>
 			<p>Tip2:有时候可能会遇到Mine类型映射问题，需要下载请右键另存为。</p>
-			<p>Tip3:在线播放仅支持MP4格式。</p>
+			<p>Tip3:在线播放仅支持MP4和FLV格式。</p>
 			</form>
 		</div>
 		
@@ -39,7 +39,7 @@
 			<ol>
 			{% for i in mylist %}
 				<li>{{i['filename']}}&emsp;|&emsp;{{i['size']}}&emsp;|&emsp;{{i['date']}}&emsp;
-				{% if '.mp4' in i['filename']%}
+				{% if '.mp4' in i['filename'] or '.flv' in i['filename'] or '.ogg' in i['filename'] %}
 				<a href="/play/{{i['filename']}}">播放</a>|
 				{% endif %}
 				<a href="/get/{{i['filename']}}" target="_blank">下载</a></li>
