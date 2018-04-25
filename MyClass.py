@@ -7,7 +7,7 @@ import threading
 import os
 import sys
 import time
-
+from db import Db
 
 def now():
 	return time.time()
@@ -16,7 +16,8 @@ class Server():
 	def __init__(self, dirpath):
 		self.homeroot = dirpath+'/static/'
 		self.chk(dirpath)
-	
+		self.db = Db(dirpath + '/db.json')
+
 	''' 目录检查 '''
 	def chk(self, dirpath):
 		# 检查读写
@@ -28,8 +29,8 @@ class Server():
 			except:
 				return "File IOError"
 		print("\n\n\n")
-		print("Working directory:", dirpath)
-		print("File Downloaded and saved directory:", self.homeroot)
+		print("Working directory:"+dirpath)
+		print("File download and save directory:"+self.homeroot)
 		print("\n")
 
 	def index(self):
@@ -38,9 +39,20 @@ class Server():
 
 	def go(self):
 		url = request.form['url']
-		threading.Thread(target = self.down, args=([url])).start()
+		# 判断URL
+		if(len(url)<15):
+			return self.index()
+		# 安全过滤
+		if ";" in url or '&&' in url:
+			return self.index()
+		# 是否下载过
+		if self.exists(url) == True:
+			print('This url was already exist in database.')
+			return self.index()
 		ip = request.remote_addr
 		print(ip,": Get file from ",url)
+		# 启动下载线程
+		threading.Thread(target = self.down, args=([url])).start()
 		return self.index()
 
 	def fileinfo(self, filepath):
@@ -67,13 +79,6 @@ class Server():
 		return (flist)
 
 	def down(self, url):
-		# 判断URL
-		if(len(url)<15):
-			return
-		# 安全过滤
-		if ";" in url:
-			return
-		
 		try:
 			if("youtube.com" in url):
 				print("Downloding video from Youtube, this thread will switch work dir to ", self.homeroot)
@@ -82,8 +87,16 @@ class Server():
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
-			print("Some problem happend -_-||")
+			print("Some problem happened -_-||")
 			raise
 
 	def play(self, filename):
 		return render_template('play2.html', filename = filename)
+
+	''' 检查是否下载过 '''
+	def exists(self, url):
+		if(self.db.exists(url)):
+			return True
+		else:
+			self.db.add(url)
+			return False

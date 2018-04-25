@@ -1,5 +1,6 @@
-<!DOCTYPE html><html><head itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
-<head>
+<!DOCTYPE html>
+<html>
+<head itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<title>{{filename}}</title>
 	<style type="text/css">
@@ -26,7 +27,7 @@
 <body id="page">
 	<div class="content">
 	<h2>{{filename}}</h2>
-		<video id="mplayer" class="video-js" controls preload="auto" style="margin:0 auto;background:black" height="auto" width="95%" autoplay="false">
+		<video id="mplayer" class="video-js" controls preload="auto" style="margin:0 auto;background:black" height="auto" width="95%">
 	</video>
 	<script>
     if (flvjs.isSupported()) {
@@ -43,7 +44,6 @@
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
-        flvPlayer.play();
     }
 	</script>
 	</div>
