@@ -37,6 +37,8 @@
             type: 'flv',
 		{% elif '.mp4' in filename %}
 			type: 'mp4',
+		{% elif '.webm' in filename %}
+			type: 'webm',
 		{% else %}
 			type: 'ogg',
 		{% endif %}

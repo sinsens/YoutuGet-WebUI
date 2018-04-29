@@ -34,16 +34,23 @@
 			<p>Tip3:在线播放仅支持MP4和FLV格式。</p>
 			</form>
 		</div>
-		
 		<div class="myList">
+		当前目录：{{dirpath}}
 			<ol>
+			{%if mylist!=None%}
 			{% for i in mylist %}
+			{% set f=i['filename'] %}
+			{% set size=(i['size']|int)%}
 				<li>{{i['filename']}}&emsp;|&emsp;{{i['size']}}&emsp;|&emsp;{{i['date']}}&emsp;
-				{% if '.mp4' in i['filename'] or '.flv' in i['filename'] or '.ogg' in i['filename'] %}
-				<a href="/play/{{i['filename']}}">播放</a>|
-				{% endif %}
+				{% if '.mp4' in f or '.flv' in f or '.ogg' in f or '.webm' in f %}
+				<a href="/play/{{i['filename']}}">播放</a>
+				{% elif size<0 %}
+				<a href="/list/{{i['filename']}}">打开目录</a></li>
+				{% else %}
 				<a href="/get/{{i['filename']}}" target="_blank">下载</a></li>
+				{% endif %}
 			{% endfor %}
+			{% endif %}
 			</ol>
 		</div>
 	</div>

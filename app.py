@@ -18,9 +18,9 @@ def hello():
 def send(filename):
 	return app.send_static_file(filename)
 
-@app.route('/list')
-def list():
-	return s.list()
+@app.route('/list/<dirpath>')
+def listpath(dirpath):
+	return s.index(dirpath)
 
 @app.route('/go', methods = ['POST'])
 def go():

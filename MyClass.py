@@ -33,9 +33,9 @@ class Server():
 		print("File download and save directory:"+self.homeroot)
 		print("\n")
 
-	def index(self):
-		mylist = self.list()
-		return render_template('index.html', mylist = mylist)
+	def index(self,dirpath=''):
+		mylist = self.getlist(dirpath)
+		return render_template('index.html', mylist = mylist, dirpath = dirpath)
 
 	def go(self):
 		url = request.form['url']
@@ -56,16 +56,21 @@ class Server():
 		return self.index()
 
 	def fileinfo(self, filepath):
-		filepath = self.homeroot + filepath
+		#验证文件
 		if path.exists(filepath) and path.isfile(filepath):
 			return path.basename(filepath), path.getsize(filepath), os.stat(filepath).st_mtime
 		else:
-			return None
+			#目录返回-1
+			return path.basename(filepath), -1, os.stat(filepath).st_mtime
 
-	def list(self):
+	def getlist(self, filepath=''):
+		if path.exists(self.homeroot+filepath)==False:
+			return None
+		filepath = self.homeroot+filepath+'/'
 		flist = []
-		for i in os.listdir(self.homeroot):
-			finfo = self.fileinfo(i)
+		for i in os.listdir(filepath):
+			nowfilepath = filepath + i
+			finfo = self.fileinfo(nowfilepath)
 			size = finfo[1]
 			date = time.localtime(finfo[2])
 			date = time.strftime("%Y-%m-%d %H:%M:%S",date)
@@ -73,8 +78,10 @@ class Server():
 				size = str(round(size/1024/1024/1024,2))+"GB"
 			elif (size)>(1024*1024):
 				size = str(round(size/1024/1024,2))+"MB"
-			else:
+			elif(size>0):
 				size = str(round(size/1024,2))+"KB"
+			else:
+				size = size
 			flist.append({'filename':finfo[0], 'size':size, 'date':date})
 		return (flist)
 
