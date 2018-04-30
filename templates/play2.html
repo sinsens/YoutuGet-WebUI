@@ -42,7 +42,7 @@
 		{% else %}
 			type: 'ogg',
 		{% endif %}
-            url: '/get/{{filename}}'
+            url: '/static{{workpath}}/{{filename}}'
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();

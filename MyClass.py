@@ -13,13 +13,13 @@ def now():
 	return time.time()
 
 class Server():
-	def __init__(self, dirpath):
-		self.homeroot = dirpath+'/static/'
-		self.chk(dirpath)
-		self.db = Db(dirpath + '/db.json')
+	def __init__(self, workpath):
+		self.homeroot = workpath+'/static/'
+		self.chk(workpath)
+		self.db = Db(workpath + '/db.json')
 
 	''' 目录检查 '''
-	def chk(self, dirpath):
+	def chk(self, workpath):
 		# 检查读写
 		if path.exists(self.homeroot) and path.isdir(self.homeroot):
 			pass
@@ -29,13 +29,16 @@ class Server():
 			except:
 				return "File IOError"
 		print("\n\n\n")
-		print("Working directory:"+dirpath)
+		print("Working directory:"+workpath)
 		print("File download and save directory:"+self.homeroot)
 		print("\n")
 
-	def index(self,dirpath=''):
-		mylist = self.getlist(dirpath)
-		return render_template('index.html', mylist = mylist, dirpath = dirpath)
+	def index(self):
+		workpath = request.args.get('dir')
+		if(workpath) == None:
+			workpath = ''
+		mylist = self.getlist(workpath)
+		return render_template('index.html', mylist = mylist, workpath = workpath)
 
 	def go(self):
 		url = request.form['url']
@@ -98,7 +101,10 @@ class Server():
 			raise
 
 	def play(self, filename):
-		return render_template('play2.html', filename = filename)
+		workpath = request.args.get('dir')
+		if(workpath) == None:
+			workpath = ''
+		return render_template('play2.html', filename = filename, workpath = workpath)
 
 	''' 检查是否下载过 '''
 	def exists(self, url):

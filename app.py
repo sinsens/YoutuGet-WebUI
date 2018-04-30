@@ -14,13 +14,9 @@ s = Server(sys.path[0]) #传递当前目录
 def hello():
 	return s.index()
 
-@app.route('/get/<filename>', methods=['GET', 'POST'])
-def send(filename):
-	return app.send_static_file(filename)
-
-@app.route('/list/<dirpath>')
-def listpath(dirpath):
-	return s.index(dirpath)
+@app.route('/list/')
+def listpath():
+	return s.index()
 
 @app.route('/go', methods = ['POST'])
 def go():

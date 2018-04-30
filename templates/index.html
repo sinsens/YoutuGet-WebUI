@@ -35,7 +35,7 @@
 			</form>
 		</div>
 		<div class="myList">
-		当前目录：{{dirpath}}
+		当前目录：{{workpath}}&emsp;&emsp;<a href="#" onclick="history.back()">返回</a>
 			<ol>
 			{%if mylist!=None%}
 			{% for i in mylist %}
@@ -43,11 +43,11 @@
 			{% set size=(i['size']|int)%}
 				<li>{{i['filename']}}&emsp;|&emsp;{{i['size']}}&emsp;|&emsp;{{i['date']}}&emsp;
 				{% if '.mp4' in f or '.flv' in f or '.ogg' in f or '.webm' in f %}
-				<a href="/play/{{i['filename']}}">播放</a>
+				<a href="/play/{{i['filename']}}?dir={{workpath}}">播放</a>
 				{% elif size<0 %}
-				<a href="/list/{{i['filename']}}">打开目录</a></li>
+				<a href="/list/?dir={{workpath}}/{{i['filename']}}">打开目录</a></li>
 				{% else %}
-				<a href="/get/{{i['filename']}}" target="_blank">下载</a></li>
+				<a href="/static{{workpath}}/{{i['filename']}}" target="_blank">下载</a></li>
 				{% endif %}
 			{% endfor %}
 			{% endif %}
