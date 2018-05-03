@@ -9,8 +9,6 @@ import sys
 import time
 from db import Db
 
-def now():
-	return time.time()
 
 class Server():
 	def __init__(self, workpath):
@@ -38,7 +36,7 @@ class Server():
 		if(workpath) == None:
 			workpath = ''
 		mylist = self.getlist(workpath)
-		return render_template('index.html', mylist = mylist, workpath = workpath)
+		return render_template('index.html', mylist = mylist, workpath = workpath, freeSize = self.freeSize())
 
 	def go(self):
 		url = request.form['url']
@@ -113,3 +111,17 @@ class Server():
 		else:
 			self.db.add(url)
 			return False
+
+	''' 获取磁盘剩余空间 
+	http://www.cnblogs.com/aguncn/p/3248911.html
+	'''
+	def freeSize(self):
+		import platform
+		if platform.system() == "Windows":
+			import ctypes
+			free_bytes = ctypes.c_ulonglong(0)
+			ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(self.homeroot), None, None, ctypes.pointer(free_bytes))
+			return str(round(free_bytes.value/1024/1024/1024,2))+"GB"
+		else:
+			st = os.statvfs(self.homeroot)
+			return str(round(st.f_bavail * st.f_frsize/1024/1024/1024,2))+"GB"
