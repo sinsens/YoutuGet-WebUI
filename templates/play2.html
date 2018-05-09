@@ -5,17 +5,24 @@
 	<title>{{filename}}</title>
 	<style type="text/css">
 		#page{
-			padding:0;
-			max-width:100%;
-			margin:0;
 			background: rgb(200,210,200);
 		}
 		.content{
-			margin:20px auto;line-height:2.2em;
-			text-align:center;
+			margin:20px auto 0 auto;
+			border-radius: 10px;
+			width: 95%;
+			background: rgba(220,220,220,0.7);
+			padding:10px;line-height:2.2em
 		}
-		ul li a{
-			color:rgb(100,100,100)
+		a{
+			color:rgb(100,100,100);
+			text-decoration:none;
+			color:#0e90d2;
+		}
+		h4{
+			margin:5px;
+			line-height:1.5em;
+			pading:5px;
 		}
 	</style>
 	<script src="https://cdn.bootcss.com/flv.js/1.4.2/flv.min.js">
@@ -26,8 +33,8 @@
 </head>
 <body id="page">
 	<div class="content">
-	<h2>{{filename}}</h2>
-		<video id="mplayer" class="video-js" controls preload="auto" style="margin:0 auto;background:black" height="auto" width="95%">
+	<h4>{{filename}}</h4>
+	<video id="mplayer" controls height="auto" width="100%" style="background:gray">
 	</video>
 	<script>
     if (flvjs.isSupported()) {
