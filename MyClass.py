@@ -88,7 +88,14 @@ class Server():
 
 	def down(self, url):
 		try:
-			if("youtube.com" in url):
+			if("github.com/" in url):
+				print(("Git cloning from %s, this thread will switch work dir to ", url), self.homeroot)
+				os.chdir(self.homeroot)
+				filename = url.split('/')[-1].replace('.git','')
+				save_filename = (filename+'.tar.gz')
+				cmd = ('git clone %s && tar -czf %s %s && rm -rf %s' % (url, save_filename, filename, filename))
+				system(cmd)
+			elif("youtube.com" in url):
 				print("Downloding video from Youtube, this thread will switch work dir to ", self.homeroot)
 				os.chdir(self.homeroot)
 				system('youtube-dl %s' % (url))
