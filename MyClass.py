@@ -25,10 +25,10 @@ class Server():
 			try:
 				os.mkdir(self.homeroot)
 			except:
-				return "File IOError"
+				return "文件读写错误"
 		print("\n\n\n")
-		print("Working directory:"+workpath)
-		print("File download and save directory:"+self.homeroot)
+		print("工作目录:"+workpath)
+		print("文件下载保存目录:"+self.homeroot)
 		print("\n")
 
 	def index(self):
@@ -40,20 +40,20 @@ class Server():
 
 	def go(self):
 		url = request.form['url']
-		# 判断URL
-		if(len(url)<15):
+		'''判断URL'''
+		if(len(url)<10):
 			return self.index()
-		# 安全过滤
+		'''安全过滤'''
 		if ";" in url or '&&' in url:
 			return self.index()
-		# 是否下载过
-		if self.exists(url) == True:
-			print('This url was already exist in database.')
-			return self.index()
-		ip = request.remote_addr
-		print(ip,": Get file from ",url)
-		# 启动下载线程
-		threading.Thread(target = self.down, args=([url])).start()
+		'''是否下载过'''
+		if self.db.add(url):
+			ip = request.remote_addr
+			print(ip,": 请求下载 ",url)
+			
+			threading.Thread(target = self.down, args=([url])).start() # 启动下载线程
+		else:
+			print('历史数据中已存在该URL，取消下载')
 		return self.index()
 
 	def fileinfo(self, filepath):
@@ -89,20 +89,20 @@ class Server():
 	def down(self, url):
 		try:
 			if("github.com/" in url):
-				print(("Git cloning from %s, this thread will switch work dir to ", url), self.homeroot)
+				print(("从 %s 克隆到：" % url), self.homeroot)
 				os.chdir(self.homeroot)
 				filename = url.split('/')[-1].replace('.git','')
 				save_filename = (filename+'.tar.gz')
 				cmd = ('git clone %s && tar -czf %s %s && rm -rf %s' % (url, save_filename, filename, filename))
 				system(cmd)
 			elif("youtube.com" in url):
-				print("Downloding video from Youtube, this thread will switch work dir to ", self.homeroot)
+				print("从Youtube下载视频, 保存到：", self.homeroot)
 				os.chdir(self.homeroot)
 				system('youtube-dl %s' % (url))
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
-			print("Some problem happened -_-||")
+			print("发生了一些问题 -_-||")
 			raise
 
 	def play(self, filename):
@@ -111,13 +111,6 @@ class Server():
 			workpath = ''
 		return render_template('play2.html', filename = filename, workpath = workpath)
 
-	''' 检查是否下载过 '''
-	def exists(self, url):
-		if(self.db.exists(url)):
-			return True
-		else:
-			self.db.add(url)
-			return False
 
 	''' 获取磁盘剩余空间 
 	http://www.cnblogs.com/aguncn/p/3248911.html
