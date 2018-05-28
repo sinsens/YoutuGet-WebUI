@@ -35,7 +35,7 @@ class Server():
 
 	def index(self):
 		workpath = request.args.get('dir')
-		if(workpath) == None:
+		if(workpath) == None or ".." in workpath:
 			workpath = ''
 		mylist = self.getlist(workpath)
 		return render_template('index.html', mylist = mylist, workpath = workpath, freeSize = self.freeSize())
