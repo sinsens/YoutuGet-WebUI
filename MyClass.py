@@ -8,10 +8,12 @@ import os
 import sys
 import time
 from db import Db
+from plugins.pornhub import Pornhub
 
 
 class Server():
 	def __init__(self, workpath):
+		self.workpath=workpath
 		self.homeroot = workpath+'/static/'
 		self.chk(workpath)
 		self.db = Db(workpath + '/db.json')
@@ -40,17 +42,17 @@ class Server():
 
 	def go(self):
 		url = request.form['url']
-		'''判断URL'''
-		if(len(url)<10):
-			return self.index()
-		'''安全过滤'''
-		if ";" in url or '&&' in url:
-			return self.index()
-		'''是否下载过'''
-		if self.db.add(url):
+		
+		if url=="reload":#重新加载数据库
+			self.db = Db(self.workpath + '/db.json')
+			print("重新加载历史数据库")
+		elif(len(url)<10):#判断URL
+			pass
+		elif ";" in url or '&&' in url:#安全过滤
+			pass
+		elif self.db.add(url):#是否下载过
 			ip = request.remote_addr
 			print(ip,": 请求下载 ",url)
-			
 			threading.Thread(target = self.down, args=([url])).start() # 启动下载线程
 		else:
 			print('历史数据中已存在该URL，取消下载')
@@ -95,10 +97,13 @@ class Server():
 				save_filename = (filename+'.tar.gz')
 				cmd = ('git clone %s && tar -czf %s %s && rm -rf %s' % (url, save_filename, filename, filename))
 				system(cmd)
-			elif("youtube.com" in url):
+			elif("youtube.com/" in url):
 				print("从Youtube下载视频, 保存到：", self.homeroot)
 				os.chdir(self.homeroot)
 				system('youtube-dl %s' % (url))
+			elif("pornhub.com/" in url):
+				p = Pornhub(self.homeroot)
+				p.detail_page(url)
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
