@@ -15,7 +15,7 @@ def hello():
 @app.route('/list/')
 def listpath():
 	return s.index()
-https://github.com/sinsens/YoutuGet-WebUI.git
+
 @app.route('/go', methods = ['POST'])
 def go():
 	return s.go()

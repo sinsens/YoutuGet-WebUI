@@ -13,22 +13,22 @@ class Db():
 					if(line != '\n' and line != '\r'):
 						self.data.append(line)
 
-	''' ×·¼Ó¼ÇÂ¼ '''
+	''' è¿½åŠ è®°å½• '''
 	def add(self, url):
 		if(self.data.count(url+'\n'))>0:
-			return False #¼ÇÂ¼ÒÑ´æÔÚ
+			return False #è®°å½•å·²å­˜åœ¨
 		else:
 			with open(self.filename, 'a+') as f:
 				f.writelines(url+'\n')
 				f.flush()
 				f.close()
-				print('Ìí¼Óµ½¼ÇÂ¼ ' + url)
+				print('æ·»åŠ åˆ°è®°å½• ' + url)
 				self.data.append(url+'\n')
 				return True
 			return False
 
 
-''' ×ÔÖ÷²âÊÔ '''
+''' è‡ªä¸»æµ‹è¯• '''
 
 if __name__ == '__main__':
 	db = Db()

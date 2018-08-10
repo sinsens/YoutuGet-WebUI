@@ -13,8 +13,8 @@ class Pornhub:
 			try:
 				os.mkdir(self.workdpath)
 			except:
-				print("ÎŞ·¨´´½¨Ä¿Â¼£º", self.workdpath, "\nÇë¼ì²éÈ¨ÏŞÊÇ·ñÕıÈ·")
-		print("PornhubÏÂÔØÄ¿Â¼:", workdpath)
+				print("æ— æ³•åˆ›å»ºç›®å½•ï¼š", self.workdpath, "\nè¯·æ£€æŸ¥æƒé™æ˜¯å¦æ­£ç¡®")
+		print("Pornhubä¸‹è½½ç›®å½•:", workdpath)
 
 	def detail_page(self, url):
 		s = requests.Session()
@@ -31,7 +31,7 @@ class Pornhub:
 				print('%s %s' % (_dict.get('quality'), _dict.get('videoUrl')))
 				try:
 					self.download(_dict.get('videoUrl'), title, 'mp4')
-					break  # ÈçÏÂÔØÁË½Ï¸ß·Ö±æÂÊµÄÊÓÆµ ¾ÍÌø³öÑ­»·
+					break  # å¦‚ä¸‹è½½äº†è¾ƒé«˜åˆ†è¾¨ç‡çš„è§†é¢‘ å°±è·³å‡ºå¾ªç¯
 				except Exception as err:
 					print(err)
 
@@ -39,7 +39,7 @@ class Pornhub:
 		print(url, name)
 		filepath = self.workdpath+'/%s.%s' % (name, filetype)
 		if os.path.exists(filepath):
-			print('ÎÄ¼şÒÑ´æÔÚ£º' % (filepath))
+			print('æ–‡ä»¶å·²å­˜åœ¨ï¼š' % (filepath))
 			return
 		urllib.request.urlretrieve(url, '%s' % (filepath))
-		print('ÒÑÏÂÔØ %s' % (filepath))
+		print('å·²ä¸‹è½½ %s' % (filepath))
