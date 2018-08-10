@@ -1,4 +1,5 @@
 flask
+requests
 you-get
 youtube-dl
 lxml

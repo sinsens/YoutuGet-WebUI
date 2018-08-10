@@ -1,4 +1,4 @@
-# coding=utf-8
+﻿# -*- coding: utf-8 -*-
 # copy from https://github.com/killmymates/Pornhub/blob/master/crawler.py
 
 import json, urllib, os, requests, re
