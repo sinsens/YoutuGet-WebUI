@@ -6,7 +6,7 @@ import sys
 app = Flask(__name__)
 port = 8081
 app.debug = True
-s = Server(sys.path[0]) #���ݵ�ǰĿ¼
+s = Server(sys.path[0]) #传递当前目录
 
 @app.route('/')
 def hello():
@@ -15,7 +15,7 @@ def hello():
 @app.route('/list/')
 def listpath():
 	return s.index()
-
+https://github.com/sinsens/YoutuGet-WebUI.git
 @app.route('/go', methods = ['POST'])
 def go():
 	return s.go()
