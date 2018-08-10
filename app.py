@@ -6,7 +6,7 @@ import sys
 app = Flask(__name__)
 port = 8081
 app.debug = True
-s = Server(sys.path[0]) #传递当前目录
+s = Server(sys.path[0]) #���ݵ�ǰĿ¼
 
 @app.route('/')
 def hello():
