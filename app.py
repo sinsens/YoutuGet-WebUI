@@ -5,6 +5,9 @@ from MyClass import Server
 import sys
 
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 app = Flask(__name__)
 port = 8081
 app.debug = True
