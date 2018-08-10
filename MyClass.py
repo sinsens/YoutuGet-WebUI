@@ -1,5 +1,3 @@
-ï»¿# -*- coding: utf-8 -*-
-
 from flask import render_template, request
 from os import path
 from os import system
@@ -18,19 +16,19 @@ class Server():
 		self.chk(workpath)
 		self.db = Db(workpath + '/db.json')
 
-	''' ç›®å½•æ£€æŸ¥ '''
+	''' Ä¿Â¼¼ì²é '''
 	def chk(self, workpath):
-		# æ£€æŸ¥è¯»å†™
+		# ¼ì²é¶ÁĞ´
 		if path.exists(self.homeroot) and path.isdir(self.homeroot):
 			pass
 		else:
 			try:
 				os.mkdir(self.homeroot)
 			except:
-				return "æ–‡ä»¶è¯»å†™é”™è¯¯"
+				return "ÎÄ¼ş¶ÁĞ´´íÎó"
 		print("\n\n\n")
-		print("å·¥ä½œç›®å½•:"+workpath)
-		print("æ–‡ä»¶ä¸‹è½½ä¿å­˜ç›®å½•:"+self.homeroot)
+		print("¹¤×÷Ä¿Â¼:"+workpath)
+		print("ÎÄ¼şÏÂÔØ±£´æÄ¿Â¼:"+self.homeroot)
 		print("\n")
 
 	def index(self):
@@ -43,27 +41,27 @@ class Server():
 	def go(self):
 		url = request.form['url']
 		
-		if url=="reload":#é‡æ–°åŠ è½½æ•°æ®åº“
+		if url=="reload":#ÖØĞÂ¼ÓÔØÊı¾İ¿â
 			self.db = Db(self.workpath + '/db.json')
-			print("é‡æ–°åŠ è½½å†å²æ•°æ®åº“")
-		elif(len(url)<10):#åˆ¤æ–­URL
+			print("ÖØĞÂ¼ÓÔØÀúÊ·Êı¾İ¿â")
+		elif(len(url)<10):#ÅĞ¶ÏURL
 			pass
-		elif ";" in url or '&&' in url:#å®‰å…¨è¿‡æ»¤
+		elif ";" in url or '&&' in url:#°²È«¹ıÂË
 			pass
-		elif self.db.add(url):#æ˜¯å¦ä¸‹è½½è¿‡
+		elif self.db.add(url):#ÊÇ·ñÏÂÔØ¹ı
 			ip = request.remote_addr
-			print(ip,": è¯·æ±‚ä¸‹è½½ ",url)
-			threading.Thread(target = self.down, args=([url])).start() # å¯åŠ¨ä¸‹è½½çº¿ç¨‹
+			print(ip,": ÇëÇóÏÂÔØ ",url)
+			threading.Thread(target = self.down, args=([url])).start() # Æô¶¯ÏÂÔØÏß³Ì
 		else:
-			print('å†å²æ•°æ®ä¸­å·²å­˜åœ¨è¯¥URLï¼Œå–æ¶ˆä¸‹è½½')
+			print('ÀúÊ·Êı¾İÖĞÒÑ´æÔÚ¸ÃURL£¬È¡ÏûÏÂÔØ')
 		return self.index()
 
 	def fileinfo(self, filepath):
-		#éªŒè¯æ–‡ä»¶
+		#ÑéÖ¤ÎÄ¼ş
 		if path.exists(filepath) and path.isfile(filepath):
 			return path.basename(filepath), path.getsize(filepath), os.stat(filepath).st_mtime
 		else:
-			#ç›®å½•è¿”å›-1
+			#Ä¿Â¼·µ»Ø-1
 			return path.basename(filepath), -1, os.stat(filepath).st_mtime
 
 	def getlist(self, filepath=''):
@@ -91,14 +89,14 @@ class Server():
 	def down(self, url):
 		try:
 			if("github.com/" in url):
-				print(("ä» %s å…‹éš†åˆ°ï¼š" % url), self.homeroot)
+				print(("´Ó %s ¿ËÂ¡µ½£º" % url), self.homeroot)
 				os.chdir(self.homeroot)
 				filename = url.split('/')[-1].replace('.git','')
 				save_filename = (filename+'.tar.gz')
 				cmd = ('git clone %s && tar -czf %s %s && rm -rf %s' % (url, save_filename, filename, filename))
 				system(cmd)
 			elif("youtube.com/" in url):
-				print("ä»Youtubeä¸‹è½½è§†é¢‘, ä¿å­˜åˆ°ï¼š", self.homeroot)
+				print("´ÓYoutubeÏÂÔØÊÓÆµ, ±£´æµ½£º", self.homeroot)
 				os.chdir(self.homeroot)
 				system('youtube-dl %s' % (url))
 			elif("pornhub.com/" in url):
@@ -107,7 +105,7 @@ class Server():
 			else:
 				system('you-get -o %s %s' % (self.homeroot, url))
 		except Exception:
-			print("å‘ç”Ÿäº†ä¸€äº›é—®é¢˜ -_-||")
+			print("·¢ÉúÁËÒ»Ğ©ÎÊÌâ -_-||")
 			raise
 
 	def play(self, filename):
@@ -117,7 +115,7 @@ class Server():
 		return render_template('play2.html', filename = filename, workpath = workpath)
 
 
-	''' è·å–ç£ç›˜å‰©ä½™ç©ºé—´ 
+	''' »ñÈ¡´ÅÅÌÊ£Óà¿Õ¼ä 
 	http://www.cnblogs.com/aguncn/p/3248911.html
 	'''
 	def freeSize(self):

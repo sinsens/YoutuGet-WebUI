@@ -1,17 +1,12 @@
-﻿# -*- coding: utf-8 -*-
-
 from flask import Flask
 from MyClass import Server
 import sys
 
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 app = Flask(__name__)
 port = 8081
 app.debug = True
-s = Server(sys.path[0]) #传递当前目录
+s = Server(sys.path[0]) #���ݵ�ǰĿ¼
 
 @app.route('/')
 def hello():
