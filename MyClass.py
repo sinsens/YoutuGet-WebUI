@@ -1,4 +1,5 @@
-﻿from flask import render_template, request
+# encoding:utf-8
+from flask import render_template, request
 from os import path
 from os import system
 import threading

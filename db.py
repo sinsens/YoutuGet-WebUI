@@ -1,4 +1,5 @@
-﻿from os import path
+# encoding:utf-8
+from os import path
 
 class Db():
 	def __init__(self, filename='db.json'):

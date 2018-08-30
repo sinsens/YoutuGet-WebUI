@@ -1,4 +1,5 @@
-﻿from flask import Flask
+# encoding:utf-8
+from flask import Flask
 from MyClass import Server
 import sys
 

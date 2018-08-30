@@ -1,4 +1,5 @@
-﻿# copy from https://github.com/killmymates/Pornhub/blob/master/crawler.py
+# encoding:utf-8
+# copy from https://github.com/killmymates/Pornhub/blob/master/crawler.py
 
 import json, urllib, os, requests, re
 from lxml import etree
